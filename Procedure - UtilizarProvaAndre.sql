@@ -62,11 +62,39 @@ BEGIN
     FROM Usuarios;
 END $$
 
+CREATE PROCEDURE AtualizarEmailUsuarios(IN novoDominio VARCHAR(150))
+BEGIN
+    UPDATE Usuarios SET Email = CONCAT(SUBSTRING_INDEX(Email, '@', 1), '@', novoDominio);
+    
+	SELECT *
+    FROM Usuarios;
+END $$
+
+CREATE PROCEDURE ModificarEmail(IN receberId INT, IN receberEmail VARCHAR(150))
+BEGIN
+    UPDATE Usuarios SET Email = receberEmail WHERE ID = receberId;
+END $$
+
+CREATE PROCEDURE ListarUsuariosComEmailsIguais()
+BEGIN
+SELECT Id, Nome, Idade, Email
+FROM Usuarios
+WHERE Email IN (
+    SELECT Email
+    FROM Usuarios
+    GROUP BY Email
+    HAVING COUNT(*) > 1
+);
+END $$
+
 DELIMITER ;
 
 CALL ListarUsuarios();
-CALL InserirUsuario('Caruso', 30, 'Caruso@gmail.com');
+CALL InserirUsuario('Caruso', 30, 'caruso@gmail.com');
 CALL AtualizarIdadeUsuario(28, 4);
 CALL ExcluirUsuario(3);
 CALL BuscarUsuariosPorIdade(26);
 CALL ContarUsuarios(@contar);
+CALL AtualizarEmailUsuarios('criancaEsperanca.com');
+CALL ModificarEmail(2, 'Caruso@criancaEsperanca.com');
+CALL ListarUsuariosComEmailsIguais()
