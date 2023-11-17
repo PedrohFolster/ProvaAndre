@@ -97,4 +97,20 @@ CALL BuscarUsuariosPorIdade(26);
 CALL ContarUsuarios(@contar);
 CALL AtualizarEmailUsuarios('criancaEsperanca.com');
 CALL ModificarEmail(2, 'Caruso@criancaEsperanca.com');
-CALL ListarUsuariosComEmailsIguais()
+CALL ListarUsuariosComEmailsIguais();
+
+
+
+
+-- FAZER VIEW
+CREATE VIEW UsuariosDuplicados AS
+SELECT Id, Nome, Idade, Email
+FROM Usuarios
+WHERE Email IN (
+    SELECT Email
+    FROM Usuarios
+    GROUP BY Email
+    HAVING COUNT(*) > 1
+);
+
+SELECT * FROM UsuariosDuplicados;
