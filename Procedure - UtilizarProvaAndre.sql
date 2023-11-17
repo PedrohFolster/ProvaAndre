@@ -92,7 +92,7 @@ DELIMITER ;
 CALL ListarUsuarios();
 CALL InserirUsuario('Caruso', 30, 'caruso@gmail.com');
 CALL AtualizarIdadeUsuario(28, 4);
-CALL ExcluirUsuario(3);
+CALL ExcluirUsuario(1);
 CALL BuscarUsuariosPorIdade(26);
 CALL ContarUsuarios(@contar);
 CALL AtualizarEmailUsuarios('criancaEsperanca.com');
